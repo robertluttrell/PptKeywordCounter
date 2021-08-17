@@ -8,14 +8,15 @@ namespace PptReader
 {
     public class KeywordFileOccurrence
     {
-        public KeywordFileOccurrence(string keyword)
+        public KeywordFileOccurrence(string keyword, string filePath, List<int> slideIndices)
         {
             Keyword = keyword;
-            SlideIndices = new List<string>();
+            FilePath = filePath;
+            SlideIndices = slideIndices;
         }
 
         public string Keyword { get; set; }
-
-        public List<string> SlideIndices { get; set; }
+        public string FilePath { get; set; }
+        public List<int> SlideIndices { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace PptReaderTests
         {
             Reader reader = new Reader(new string[] { "asdf" });
             reader.CountKeywordsAllFiles();
+            Console.WriteLine("Debug boi");
         }
     }
 }

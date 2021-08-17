@@ -16,14 +16,62 @@ namespace PptReader
         {
             _filePaths = filePaths;
             _filePaths = new string[] { @"C:\Users\rober\source\repos\PptKeywordReader\TestFiles\Presentation1.pptx" };
+            KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();
+        }
+
+        public void AddPresentationKeywordsToMasterDict(Dictionary<string, List<int>> presentationKeywordDict, string filePath)
+        {
+            foreach (string keyword in presentationKeywordDict.Keys)
+            {
+                if (!KeywordDict.ContainsKey(keyword))
+                {
+                    KeywordDict.Add(keyword, new List<KeywordFileOccurrence> { new KeywordFileOccurrence(keyword, filePath, presentationKeywordDict[keyword]) });
+                }
+
+                else
+                {
+                    KeywordDict[keyword].Add(new KeywordFileOccurrence(keyword, filePath, presentationKeywordDict[keyword]));
+                }
+            }
         }
 
         public void CountKeywordsAllFiles()
         {
             foreach (string filePath in _filePaths)
             {
-                CountKeywordsSingleFile(filePath);
+                var nestedKeywordList = CountKeywordsSingleFile(filePath);
+                var presentationKeywordDict = MakePresentationKeywordDict(nestedKeywordList, filePath);
+                AddPresentationKeywordsToMasterDict(presentationKeywordDict, filePath);
             }
+        }
+
+        private Dictionary<string, List<int>> MakePresentationKeywordDict(List<string> presentationKeywordList, string filePath)
+        {
+            var presentationKeywordDict = new Dictionary<string, List<int>>();
+
+            for (int slideIndex = 0; slideIndex < presentationKeywordList.Count(); slideIndex++)
+            {
+                string keywordListRaw = presentationKeywordList[slideIndex];
+                if (keywordListRaw != null)
+                {
+                    List<string> slideKeywordList = keywordListRaw.Replace("Keywords:", "").Trim().Split(",").ToList();
+                    foreach (string keyword in slideKeywordList.ConvertAll(d => d.ToLower()))
+                    {
+                        if (!presentationKeywordDict.ContainsKey(keyword))
+                        {
+                            presentationKeywordDict.Add(keyword, new List<int> { slideIndex });
+                        }
+                        else
+                        {
+                            presentationKeywordDict[keyword].Add(slideIndex);
+                        }
+                    }
+                }
+            }
+
+            return presentationKeywordDict;
+
+
         }
 
         private List<string> CountKeywordsSingleFile(string filePath)
