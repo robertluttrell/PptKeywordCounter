@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PptKeywordReader", "PptKeywordReader\PptKeywordReader.csproj", "{36E3DECD-662E-44F9-9906-7219ACA628FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptReader", "PptKeywordReader\PptReader.csproj", "{36E3DECD-662E-44F9-9906-7219ACA628FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PptKeywordReaderTests", "PptKeywordReaderTests\PptKeywordReaderTests.csproj", "{9A12FFFC-B6AF-42E9-9DD4-6157411683EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptReaderTests", "PptKeywordReaderTests\PptReaderTests.csproj", "{9A12FFFC-B6AF-42E9-9DD4-6157411683EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFiles", "TestFiles\TestFiles.csproj", "{2DA5B47E-D811-4478-9048-DC805A6B3A50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9A12FFFC-B6AF-42E9-9DD4-6157411683EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A12FFFC-B6AF-42E9-9DD4-6157411683EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A12FFFC-B6AF-42E9-9DD4-6157411683EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DA5B47E-D811-4478-9048-DC805A6B3A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DA5B47E-D811-4478-9048-DC805A6B3A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DA5B47E-D811-4478-9048-DC805A6B3A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DA5B47E-D811-4478-9048-DC805A6B3A50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,21 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Packaging;
 
-namespace Counter
+namespace PptReader
 {
-    public class PptReader
+    public class Reader
     {
         private readonly string[] _filePaths;
 
-        public PptReader(string[] filePaths)
+        public Reader(string[] filePaths)
         {
             _filePaths = filePaths;
-            _filePaths = new string[] { @"C:\Users\rober\source\repos\PptKeywordCounter-csharp\TestFiles" };
+            _filePaths = new string[] { @"C:\Users\rober\source\repos\PptKeywordReader\TestFiles\Presentation1.pptx" };
         }
 
         public void CountKeywordsAllFiles()
@@ -25,10 +26,57 @@ namespace Counter
             }
         }
 
-        private void CountKeywordsSingleFile(string filePath)
+        private List<string> CountKeywordsSingleFile(string filePath)
         {
-            return;
+            var keywordList = new List<string>();
+
+            using (PresentationDocument presentationDocument = PresentationDocument.Open(filePath, false))
+            {
+                var presentation = presentationDocument.PresentationPart.Presentation;
+                var numSlides = presentation.SlideIdList.Count();
+
+                for (int slideIndex = 0; slideIndex < numSlides; slideIndex++)
+                {
+                    // Get the collection of slide IDs from the slide ID list.
+                    DocumentFormat.OpenXml.OpenXmlElementList slideIds = presentation.SlideIdList.ChildElements;
+
+                    // Get the relationship ID of the slide.
+                    string slidePartRelationshipId = (slideIds[slideIndex] as SlideId).RelationshipId;
+
+                    // Get the specified slide part from the relationship ID.
+                    SlidePart slidePart = (SlidePart)presentation.PresentationPart.GetPartById(slidePartRelationshipId);
+                    keywordList.Add(GetKeywordsFromSlide(slidePart, slideIndex));
+                }
+            }
+            return keywordList;
         }
+
+        public static string GetKeywordsFromSlide(SlidePart slidePart, int slideIndex)
+        {
+            // Verify that the slide part exists.
+            if (slidePart == null)
+            {
+                throw new ArgumentNullException("slidePart");
+            }
+
+            // If the slide exists...
+            if (slidePart.Slide != null)
+            {
+                // Iterate through all the paragraphs in the slide.
+                foreach (Shape shape in slidePart.Slide.CommonSlideData.ShapeTree.Elements<Shape>())
+                {
+                    string s = shape.TextBody.InnerText;
+                    if (s.StartsWith("Keywords"))
+                    {
+                        return s;
+                    }
+                }
+            }
+
+            return null;
+
+        }
+
 
 
         public Dictionary<string, List<KeywordFileOccurrence>> KeywordDict { get; set; }

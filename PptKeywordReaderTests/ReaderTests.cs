@@ -1,14 +1,16 @@
 using System;
 using Xunit;
+using PptReader;
 
-namespace PptKeywordReaderTests
+namespace PptReaderTests
 {
     public class ReaderTests
     {
         [Fact]
         public void Test1()
         {
-            Assert.True(true);
+            Reader reader = new Reader(new string[] { "asdf" });
+            reader.CountKeywordsAllFiles();
         }
     }
 }
