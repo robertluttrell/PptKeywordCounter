@@ -15,8 +15,17 @@ namespace PptReader
         public Reader(string[] filePaths)
         {
             _filePaths = filePaths;
-            _filePaths = new string[] { @"C:\Users\rober\source\repos\PptKeywordReader\TestFiles\Presentation1.pptx" };
             KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();
+        }
+
+        public void CountKeywordsAllFiles()
+        {
+            foreach (string filePath in _filePaths)
+            {
+                var nestedKeywordList = CountKeywordsSingleFile(filePath);
+                var presentationKeywordDict = MakePresentationKeywordDict(nestedKeywordList, filePath);
+                AddPresentationKeywordsToMasterDict(presentationKeywordDict, filePath);
+            }
         }
 
         public void AddPresentationKeywordsToMasterDict(Dictionary<string, List<int>> presentationKeywordDict, string filePath)
@@ -35,16 +44,6 @@ namespace PptReader
             }
         }
 
-        public void CountKeywordsAllFiles()
-        {
-            foreach (string filePath in _filePaths)
-            {
-                var nestedKeywordList = CountKeywordsSingleFile(filePath);
-                var presentationKeywordDict = MakePresentationKeywordDict(nestedKeywordList, filePath);
-                AddPresentationKeywordsToMasterDict(presentationKeywordDict, filePath);
-            }
-        }
-
         private Dictionary<string, List<int>> MakePresentationKeywordDict(List<string> presentationKeywordList, string filePath)
         {
             var presentationKeywordDict = new Dictionary<string, List<int>>();
@@ -54,16 +53,16 @@ namespace PptReader
                 string keywordListRaw = presentationKeywordList[slideIndex];
                 if (keywordListRaw != null)
                 {
-                    List<string> slideKeywordList = keywordListRaw.Replace("Keywords:", "").Trim().Split(",").ToList();
+                    List<string> slideKeywordList = keywordListRaw.Replace("keywords:", "").Trim().Split(",").ToList();
                     foreach (string keyword in slideKeywordList.ConvertAll(d => d.ToLower()))
                     {
                         if (!presentationKeywordDict.ContainsKey(keyword))
                         {
-                            presentationKeywordDict.Add(keyword, new List<int> { slideIndex });
+                            presentationKeywordDict.Add(keyword, new List<int> { slideIndex + 1 });
                         }
                         else
                         {
-                            presentationKeywordDict[keyword].Add(slideIndex);
+                            presentationKeywordDict[keyword].Add(slideIndex + 1);
                         }
                     }
                 }
@@ -113,8 +112,8 @@ namespace PptReader
                 // Iterate through all the paragraphs in the slide.
                 foreach (Shape shape in slidePart.Slide.CommonSlideData.ShapeTree.Elements<Shape>())
                 {
-                    string s = shape.TextBody.InnerText;
-                    if (s.StartsWith("Keywords"))
+                    string s = shape.TextBody.InnerText.ToLower();
+                    if (s.StartsWith("keywords"))
                     {
                         return s;
                     }
@@ -124,8 +123,6 @@ namespace PptReader
             return null;
 
         }
-
-
 
         public Dictionary<string, List<KeywordFileOccurrence>> KeywordDict { get; set; }
 
