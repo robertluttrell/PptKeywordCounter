@@ -53,7 +53,7 @@ namespace PptReader
                 string keywordListRaw = presentationKeywordList[slideIndex];
                 if (keywordListRaw != null)
                 {
-                    List<string> slideKeywordList = keywordListRaw.Replace("keywords:", "").Trim().Split(",").ToList();
+                    List<string> slideKeywordList = keywordListRaw.Replace("keywords:", "").Trim().Split(",").Select(s => s.Trim()).ToList();
                     foreach (string keyword in slideKeywordList.ConvertAll(d => d.ToLower()))
                     {
                         if (!presentationKeywordDict.ContainsKey(keyword))
@@ -69,8 +69,6 @@ namespace PptReader
             }
 
             return presentationKeywordDict;
-
-
         }
 
         private List<string> CountKeywordsSingleFile(string filePath)
