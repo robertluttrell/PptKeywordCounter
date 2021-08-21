@@ -8,11 +8,11 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace PptReader
 {
-    public class Reader
+    public class PptReader
     {
         private readonly string[] _filePaths;
 
-        public Reader(string[] filePaths)
+        public PptReader(string[] filePaths)
         {
             _filePaths = filePaths;
             KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();

@@ -9,14 +9,14 @@ using System.Linq;
 
 namespace ExcelWriter
 {
-    public class Writer
+    public class ExcelWriter
     {
         private readonly string _outputPath;
         private readonly Dictionary<string, List<KeywordFileOccurrence>> _keywordDict;
         private uint _lastFilledRow;
         private SpreadsheetDocument _excelDoc;
 
-        public Writer(string outputPath, Dictionary<string, List<KeywordFileOccurrence>> keywordDict)
+        public ExcelWriter(string outputPath, Dictionary<string, List<KeywordFileOccurrence>> keywordDict)
         {
             _outputPath = outputPath;
             _keywordDict = keywordDict;
