@@ -34,12 +34,28 @@ namespace ExcelWriter
 
                 KeywordFileOccurrence kfo = new KeywordFileOccurrence("keyword", "path/filename", new List<int>() { 1, 2, 3 });
                 int rowIndex = 2;
-                Row newRow = MakeRow(kfo, rowIndex, spreadsheet);
+                Row newRow = MakeDataRow(kfo, rowIndex, spreadsheet);
                 sheetData.Append(newRow);
             }
         }
 
-        public Row MakeRow(KeywordFileOccurrence kfo, int rowIndex, SpreadsheetDocument spreadsheet)
+        public Row MakeHeaderRow(SheetData sheetData)
+        {
+            Row row = new Row() { RowIndex = 1 };
+
+            var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1", "D1" };
+            var headerTextList = new List<string>() { "Keyword", "File Name", "Slide Indices", "File Path" };
+
+            for (int i = 0; i < columnHeaderCellIds.Count; i++)
+            {
+                Cell cell = MakeCell(headerTextList[i], columnHeaderCellIds[i], true);
+                row.Append(cell);
+            }
+
+            return row;
+        }
+
+        public Row MakeDataRow(KeywordFileOccurrence kfo, int rowIndex, SpreadsheetDocument spreadsheet)
         {
             Row row = new Row() { RowIndex = 2 };
             var newCellList = new List<Cell>();
@@ -83,22 +99,6 @@ namespace ExcelWriter
             cell.Append(inlineString);
 
             return cell;
-        }
-
-        public Row MakeHeaderRow(SheetData sheetData)
-        {
-            Row row = new Row() { RowIndex = 1 };
-
-            var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1", "D1" };
-            var headerTextList = new List<string>() { "Keyword", "File Name", "Slide Indices", "File Path" };
-
-            for (int i = 0; i < columnHeaderCellIds.Count; i++)
-            {
-                Cell cell = MakeCell(headerTextList[i], columnHeaderCellIds[i], true);
-                row.Append(cell);
-            }
-
-            return row;
         }
 
         public void CreateDocument()
