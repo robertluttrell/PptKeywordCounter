@@ -45,6 +45,7 @@ namespace ExcelWriter
         private void AddRowsForKeyword(string keyword, SheetData sheetData)
         {
             var kfoList = _keywordDict[keyword];
+            kfoList.Sort(new KeywordFileOccurrenceComparer());
 
             foreach (var kfo in kfoList)
             {

@@ -59,5 +59,22 @@ namespace ExcelWriterTests
             Assert.Equal("keyword1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A2"));
             Assert.Equal("keyword2", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A3"));
         }
+
+        [Fact]
+        public void Writer_SingleKeywordMultipleFiles_AlphabeticalByFileName()
+        {
+            var kfoDict = new Dictionary<string, List<KeywordFileOccurrence>>();
+            kfoDict.Add("keyword", new List<KeywordFileOccurrence>() {
+                                                                        new KeywordFileOccurrence("keyword", "path/file2", new List<int>() { 1, 2, 3 }),
+                                                                        new KeywordFileOccurrence("keyword", "path/file1", new List<int>() { 1, 2, 3 })
+                                                                     });
+
+            var outputPath = _baseDirectory + @"\testoutput.xlsx";
+            var writer = new ExcelWriter.ExcelWriter(outputPath, kfoDict);
+            writer.WriteDictToFile();
+
+            Assert.Equal("file1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B2"));
+            Assert.Equal("file2", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B3"));
+        }
     }
 }

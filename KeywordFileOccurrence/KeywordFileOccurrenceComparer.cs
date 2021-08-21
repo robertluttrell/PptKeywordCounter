@@ -10,7 +10,7 @@ namespace FileOccurrence
     {
         public int Compare(KeywordFileOccurrence kfo1, KeywordFileOccurrence kfo2)
         {
-            return kfo1.Keyword.CompareTo(kfo2.Keyword);
+            return kfo1.FileName.CompareTo(kfo2.FileName);
         }
     }
 }
