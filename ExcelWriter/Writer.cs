@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using PptReader;
 using System.Collections.Generic;
 using DocumentFormat.OpenXml;
@@ -28,16 +29,51 @@ namespace ExcelWriter
             {
                 AddColumnHeaders(spreadsheet);
 
+                WorkbookPart workbookPart = spreadsheet.WorkbookPart;
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
 
+                KeywordFileOccurrence kfo = new KeywordFileOccurrence("keyword", "path/filename", new List<int>() { 1, 2, 3 });
+                int rowIndex = 2;
+                Row newRow = MakeRow(kfo, rowIndex, spreadsheet);
+                sheetData.Append(newRow);
             }
-
         }
 
-        public Cell FillCellBold(string cellText, string cellIndex, SpreadsheetDocument spreadsheet)
+        public Row MakeRow(KeywordFileOccurrence kfo, int rowIndex, SpreadsheetDocument spreadsheet)
+        {
+            Row row = new Row() { RowIndex = 2 };
+            var newCellList = new List<Cell>();
+
+            newCellList.Add(MakeCell(kfo.Keyword, "A" + rowIndex.ToString(), spreadsheet, false));
+            newCellList.Add(MakeCell(Path.GetFileName(kfo.FilePath), "B" + rowIndex.ToString(), spreadsheet, false));
+            newCellList.Add(MakeCell(string.Join(",", kfo.SlideIndices), "C" + rowIndex.ToString(), spreadsheet, false));
+            newCellList.Add(MakeCell(kfo.FilePath, "D" + rowIndex.ToString(), spreadsheet, false));
+
+            foreach (Cell newCell in newCellList)
+            {
+                row.Append(newCell);
+            }
+
+            return row;
+        }
+
+        public Cell FillCellStandard(string cellText, string cellIndex, SpreadsheetDocument spreadsheet)
         {
             WorkbookPart workbookPart = spreadsheet.WorkbookPart;
             WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
             SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+
+            //create a new inline string cell
+            Cell cell = new Cell() { CellReference = cellIndex };
+            cell.CellValue = new CellValue(cellText);
+
+            return cell;
+        }
+
+        public Cell MakeCell(string cellText, string cellIndex, SpreadsheetDocument spreadsheet, bool bold)
+        {
+            WorkbookPart workbookPart = spreadsheet.WorkbookPart;
 
             //create a new inline string cell
             Cell cell = new Cell() { CellReference = cellIndex };
@@ -48,7 +84,12 @@ namespace ExcelWriter
             run1.Append(new Text(cellText));
             //create runproperties and append a "Bold" to them
             RunProperties run1Properties = new RunProperties();
-            run1Properties.Append(new Bold());
+
+            if (bold)
+            { 
+                run1Properties.Append(new Bold());
+            }
+
             //set the first runs RunProperties to the RunProperties containing the bold
             run1.RunProperties = run1Properties;
 
@@ -67,13 +108,12 @@ namespace ExcelWriter
             SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
             Row row = new Row() { RowIndex = 1 };
 
-            var columnHeaderCells = new List<Cell>();
-            var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1" };
-            var headerTextList = new List<string>() { "header1", "header2", "header3" };
+            var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1", "D1" };
+            var headerTextList = new List<string>() { "Keyword", "File Name", "Slide Indices", "File Path" };
 
             for (int i = 0; i < columnHeaderCellIds.Count; i++)
             {
-                Cell cell = FillCellBold(headerTextList[i], columnHeaderCellIds[i], spreadsheet);
+                Cell cell = MakeCell(headerTextList[i], columnHeaderCellIds[i], spreadsheet, true);
                 row.Append(cell);
             }
 
