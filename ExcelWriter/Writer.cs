@@ -27,11 +27,10 @@ namespace ExcelWriter
 
             using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Open(_outputPath, true))
             {
-                AddColumnHeaders(spreadsheet);
+                SheetData sheetData = spreadsheet.WorkbookPart.WorksheetParts.First().Worksheet.Elements<SheetData>().First();
 
-                WorkbookPart workbookPart = spreadsheet.WorkbookPart;
-                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+                Row headerRow = MakeHeaderRow(sheetData);
+                sheetData.Append(headerRow);
 
                 KeywordFileOccurrence kfo = new KeywordFileOccurrence("keyword", "path/filename", new List<int>() { 1, 2, 3 });
                 int rowIndex = 2;
@@ -86,11 +85,8 @@ namespace ExcelWriter
             return cell;
         }
 
-        public void AddColumnHeaders(SpreadsheetDocument spreadsheet)
+        public Row MakeHeaderRow(SheetData sheetData)
         {
-            WorkbookPart workbookPart = spreadsheet.WorkbookPart;
-            WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-            SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
             Row row = new Row() { RowIndex = 1 };
 
             var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1", "D1" };
@@ -102,7 +98,7 @@ namespace ExcelWriter
                 row.Append(cell);
             }
 
-            sheetData.Append(row);
+            return row;
         }
 
         public void CreateDocument()
