@@ -45,10 +45,10 @@ namespace ExcelWriter
             Row row = new Row() { RowIndex = 2 };
             var newCellList = new List<Cell>();
 
-            newCellList.Add(MakeCell(kfo.Keyword, "A" + rowIndex.ToString(), spreadsheet, false));
-            newCellList.Add(MakeCell(Path.GetFileName(kfo.FilePath), "B" + rowIndex.ToString(), spreadsheet, false));
-            newCellList.Add(MakeCell(string.Join(",", kfo.SlideIndices), "C" + rowIndex.ToString(), spreadsheet, false));
-            newCellList.Add(MakeCell(kfo.FilePath, "D" + rowIndex.ToString(), spreadsheet, false));
+            newCellList.Add(MakeCell(kfo.Keyword, "A" + rowIndex.ToString(), false));
+            newCellList.Add(MakeCell(Path.GetFileName(kfo.FilePath), "B" + rowIndex.ToString(), false));
+            newCellList.Add(MakeCell(string.Join(",", kfo.SlideIndices), "C" + rowIndex.ToString(), false));
+            newCellList.Add(MakeCell(kfo.FilePath, "D" + rowIndex.ToString(), false));
 
             foreach (Cell newCell in newCellList)
             {
@@ -71,10 +71,8 @@ namespace ExcelWriter
             return cell;
         }
 
-        public Cell MakeCell(string cellText, string cellIndex, SpreadsheetDocument spreadsheet, bool bold)
+        public Cell MakeCell(string cellText, string cellIndex, bool bold)
         {
-            WorkbookPart workbookPart = spreadsheet.WorkbookPart;
-
             //create a new inline string cell
             Cell cell = new Cell() { CellReference = cellIndex };
             cell.DataType = CellValues.InlineString;
@@ -113,7 +111,7 @@ namespace ExcelWriter
 
             for (int i = 0; i < columnHeaderCellIds.Count; i++)
             {
-                Cell cell = MakeCell(headerTextList[i], columnHeaderCellIds[i], spreadsheet, true);
+                Cell cell = MakeCell(headerTextList[i], columnHeaderCellIds[i], true);
                 row.Append(cell);
             }
 
