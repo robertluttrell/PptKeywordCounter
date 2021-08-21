@@ -11,12 +11,13 @@ namespace ExcelWriterTests
         private readonly string _baseDirectory = @"C:\Users\rober\source\repos\PptKeywordReader";
 
         [Fact]
-        public void Writer_EmptyDict_BlankFile()
+        public void Writer_SingleKfo_WritesToFile()
         {
-            var emptyDict = new Dictionary<string, List<KeywordFileOccurrence>>();
+            var kfoDict = new Dictionary<string, List<KeywordFileOccurrence>>();
+            kfoDict.Add("keyword1", new List<KeywordFileOccurrence>() { new KeywordFileOccurrence("keyword1", "path/file", new List<int>() { 1, 2, 3 }) });
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
-            var writer = new Writer(outputPath, emptyDict);
+            var writer = new Writer(outputPath, kfoDict);
             writer.WriteDictToFile();
         }
     }

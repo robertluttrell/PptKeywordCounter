@@ -13,6 +13,7 @@ namespace ExcelWriter
     {
         private readonly string _outputPath;
         private readonly Dictionary<string, List<KeywordFileOccurrence>> _keywordDict;
+        private uint _lastFilledRow;
         private SpreadsheetDocument _excelDoc;
 
         public Writer(string outputPath, Dictionary<string, List<KeywordFileOccurrence>> keywordDict)
@@ -32,12 +33,24 @@ namespace ExcelWriter
                 Row headerRow = MakeHeaderRow(sheetData);
                 sheetData.Append(headerRow);
 
-                KeywordFileOccurrence kfo = new KeywordFileOccurrence("keyword", "path/filename", new List<int>() { 1, 2, 3 });
-                int rowIndex = 2;
-                Row newRow = MakeDataRow(kfo, rowIndex, spreadsheet);
+                foreach (string keyword in _keywordDict.Keys)
+                {
+                    AddRowsForKeyword(keyword, sheetData);
+                }
+            }
+        }
+
+        public void AddRowsForKeyword(string keyword, SheetData sheetData)
+        {
+            var kfoList = _keywordDict[keyword];
+
+            foreach (var kfo in kfoList)
+            {
+                Row newRow = MakeDataRow(kfo, _lastFilledRow + 1);
                 sheetData.Append(newRow);
             }
         }
+
 
         public Row MakeHeaderRow(SheetData sheetData)
         {
@@ -52,10 +65,12 @@ namespace ExcelWriter
                 row.Append(cell);
             }
 
+            _lastFilledRow = 1;
+
             return row;
         }
 
-        public Row MakeDataRow(KeywordFileOccurrence kfo, int rowIndex, SpreadsheetDocument spreadsheet)
+        public Row MakeDataRow(KeywordFileOccurrence kfo, uint rowIndex)
         {
             Row row = new Row() { RowIndex = 2 };
             var newCellList = new List<Cell>();
