@@ -58,19 +58,6 @@ namespace ExcelWriter
             return row;
         }
 
-        public Cell FillCellStandard(string cellText, string cellIndex, SpreadsheetDocument spreadsheet)
-        {
-            WorkbookPart workbookPart = spreadsheet.WorkbookPart;
-            WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-            SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-
-            //create a new inline string cell
-            Cell cell = new Cell() { CellReference = cellIndex };
-            cell.CellValue = new CellValue(cellText);
-
-            return cell;
-        }
-
         public Cell MakeCell(string cellText, string cellIndex, bool bold)
         {
             //create a new inline string cell
