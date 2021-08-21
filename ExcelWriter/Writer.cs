@@ -40,7 +40,7 @@ namespace ExcelWriter
             }
         }
 
-        public void AddRowsForKeyword(string keyword, SheetData sheetData)
+        private void AddRowsForKeyword(string keyword, SheetData sheetData)
         {
             var kfoList = _keywordDict[keyword];
 
@@ -52,7 +52,7 @@ namespace ExcelWriter
         }
 
 
-        public Row MakeHeaderRow(SheetData sheetData)
+        private Row MakeHeaderRow(SheetData sheetData)
         {
             Row row = new Row() { RowIndex = 1 };
 
@@ -70,7 +70,7 @@ namespace ExcelWriter
             return row;
         }
 
-        public Row MakeDataRow(KeywordFileOccurrence kfo, uint rowIndex)
+        private Row MakeDataRow(KeywordFileOccurrence kfo, uint rowIndex)
         {
             Row row = new Row() { RowIndex = 2 };
             var newCellList = new List<Cell>();
@@ -88,7 +88,7 @@ namespace ExcelWriter
             return row;
         }
 
-        public Cell MakeCell(string cellText, string cellIndex, bool bold)
+        private Cell MakeCell(string cellText, string cellIndex, bool bold)
         {
             //create a new inline string cell
             Cell cell = new Cell() { CellReference = cellIndex };
@@ -116,7 +116,7 @@ namespace ExcelWriter
             return cell;
         }
 
-        public void CreateDocument()
+        private void CreateDocument()
         {
             // Create document
             _excelDoc = SpreadsheetDocument.Create(_outputPath, SpreadsheetDocumentType.Workbook);
