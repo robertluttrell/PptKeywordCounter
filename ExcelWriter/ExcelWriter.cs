@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using PptReader;
+using FileOccurrence;
 using System.Collections.Generic;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
@@ -33,7 +33,9 @@ namespace ExcelWriter
                 Row headerRow = MakeHeaderRow(sheetData);
                 sheetData.Append(headerRow);
 
-                foreach (string keyword in _keywordDict.Keys)
+                var keyList = _keywordDict.Keys.OrderBy(s => s).ToList();
+
+                foreach (string keyword in keyList)
                 {
                     AddRowsForKeyword(keyword, sheetData);
                 }
@@ -48,6 +50,7 @@ namespace ExcelWriter
             {
                 Row newRow = MakeDataRow(kfo, _lastFilledRow + 1);
                 sheetData.Append(newRow);
+                _lastFilledRow += 1;
             }
         }
 

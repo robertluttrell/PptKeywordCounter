@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExcelWriter\ExcelWriter.csproj" />
-    <ProjectReference Include="..\PptKeywordReader\PptReader.csproj" />
+    <ProjectReference Include="..\PptKeywordReader\PowerpointReader.csproj" />
   </ItemGroup>
 
 </Project>

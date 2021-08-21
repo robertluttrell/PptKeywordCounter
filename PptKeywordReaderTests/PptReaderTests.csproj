@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PptKeywordReader\PptReader.csproj" />
+    <ProjectReference Include="..\PptKeywordReader\PowerpointReader.csproj" />
   </ItemGroup>
 
 </Project>

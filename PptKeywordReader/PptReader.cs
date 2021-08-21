@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Packaging;
+using FileOccurrence;
 
-namespace PptReader
+namespace PowerpointReader
 {
     public class PptReader
     {

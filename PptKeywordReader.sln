@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptReader", "PptKeywordReader\PptReader.csproj", "{36E3DECD-662E-44F9-9906-7219ACA628FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerpointReader", "PptKeywordReader\PowerpointReader.csproj", "{36E3DECD-662E-44F9-9906-7219ACA628FB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptReaderTests", "PptKeywordReaderTests\PptReaderTests.csproj", "{9A12FFFC-B6AF-42E9-9DD4-6157411683EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFiles", "TestFiles\TestFiles.csproj", "{2DA5B47E-D811-4478-9048-DC805A6B3A50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelWriter", "ExcelWriter\ExcelWriter.csproj", "{41BDF88C-7566-460B-AA0C-CEE9E3BA4F98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelWriter", "ExcelWriter\ExcelWriter.csproj", "{41BDF88C-7566-460B-AA0C-CEE9E3BA4F98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelWriterTests", "WriterTests\ExcelWriterTests.csproj", "{694CF3EB-E7F1-4AA1-9906-80DE326DD3B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelWriterTests", "WriterTests\ExcelWriterTests.csproj", "{694CF3EB-E7F1-4AA1-9906-80DE326DD3B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOccurrence", "KeywordFileOccurrence\FileOccurrence.csproj", "{5790EA44-F368-4F57-8BB3-75BEFC7C2259}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{694CF3EB-E7F1-4AA1-9906-80DE326DD3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{694CF3EB-E7F1-4AA1-9906-80DE326DD3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{694CF3EB-E7F1-4AA1-9906-80DE326DD3B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5790EA44-F368-4F57-8BB3-75BEFC7C2259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5790EA44-F368-4F57-8BB3-75BEFC7C2259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5790EA44-F368-4F57-8BB3-75BEFC7C2259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5790EA44-F368-4F57-8BB3-75BEFC7C2259}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
