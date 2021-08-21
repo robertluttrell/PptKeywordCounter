@@ -19,6 +19,11 @@ namespace ExcelWriterTests
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoDict);
             writer.WriteDictToFile();
+
+            Assert.Equal("keyword1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A2"));
+            Assert.Equal("file", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B2"));
+            Assert.Equal("1,2,3", ExcelReader.GetCellValue(outputPath, "Worksheet1", "C2"));
+            Assert.Equal("path/file", ExcelReader.GetCellValue(outputPath, "Worksheet1", "D2"));
         }
     }
 }
