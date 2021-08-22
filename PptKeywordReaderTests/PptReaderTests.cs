@@ -15,7 +15,7 @@ namespace PptReaderTests
         {
             var presentationPath = _baseDirectory + @"\TestFiles\BlankPresentation.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentationPath });
+            PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
             Assert.Empty(reader.KeywordDict);
@@ -26,7 +26,7 @@ namespace PptReaderTests
         {
             var presentationPath = _baseDirectory + @"\TestFiles\SingleKeyword.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentationPath });
+            PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
             Assert.Single(reader.KeywordDict);
@@ -42,7 +42,7 @@ namespace PptReaderTests
         {
             var presentationPath = _baseDirectory + @"\TestFiles\LowercaseKeywordPrefix.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentationPath });
+            PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
             Assert.Single(reader.KeywordDict);
@@ -54,7 +54,7 @@ namespace PptReaderTests
         {
             var presentationPath = _baseDirectory + @"\TestFiles\TextboxKeyword.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentationPath });
+            PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
             Assert.Single(reader.KeywordDict);
@@ -66,7 +66,7 @@ namespace PptReaderTests
         {
             var presentationPath = _baseDirectory + @"\TestFiles\BulletPointKeyword.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentationPath });
+            PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
             Assert.Single(reader.KeywordDict);
@@ -78,7 +78,7 @@ namespace PptReaderTests
         {
             var presentationPath = _baseDirectory + @"\TestFiles\NewlineBetweenKeywords.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentationPath });
+            PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
             Assert.Equal(2, reader.KeywordDict.Count);
@@ -92,7 +92,7 @@ namespace PptReaderTests
             var presentation1Path = _baseDirectory + @"\TestFiles\MultiplePresentationsMultipleKeywords1.pptx"; 
             var presentation2Path = _baseDirectory + @"\TestFiles\MultiplePresentationsMultipleKeywords2.pptx";
 
-            PptReader reader = new PptReader(new string[] { presentation1Path, presentation2Path });
+            PptReader reader = new PptReader(new List<string> { presentation1Path, presentation2Path });
             reader.CountKeywordsAllFiles();
 
             Assert.Equal(2, reader.KeywordDict.Count);

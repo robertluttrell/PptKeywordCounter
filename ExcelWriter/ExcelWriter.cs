@@ -76,7 +76,7 @@ namespace ExcelWriter
 
         private Row MakeDataRow(KeywordFileOccurrence kfo, uint rowIndex)
         {
-            Row row = new Row() { RowIndex = 2 };
+            Row row = new Row() { RowIndex = rowIndex };
             var newCellList = new List<Cell>();
 
             newCellList.Add(MakeCell(kfo.Keyword, "A" + rowIndex.ToString(), false));

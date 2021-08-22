@@ -11,9 +11,9 @@ namespace PowerpointReader
 {
     public class PptReader
     {
-        private readonly string[] _filePaths;
+        private readonly List<string> _filePaths;
 
-        public PptReader(string[] filePaths)
+        public PptReader(List<string> filePaths)
         {
             _filePaths = filePaths;
             KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();

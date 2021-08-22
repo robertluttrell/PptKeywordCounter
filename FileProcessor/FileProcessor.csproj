@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelWriter\ExcelWriter.csproj" />
+    <ProjectReference Include="..\KeywordFileOccurrence\FileOccurrence.csproj" />
+    <ProjectReference Include="..\PptKeywordReader\PowerpointReader.csproj" />
+  </ItemGroup>
+
+</Project>
