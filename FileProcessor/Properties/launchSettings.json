@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "FileProcessor": {
-      "commandName": "Project",
-      "commandLineArgs": "path/file.xlsx path/file1.pptx path/file2.pptx"
-    }
-  }
-}

@@ -54,7 +54,7 @@ namespace PowerpointReader
                 string keywordListRaw = presentationKeywordList[slideIndex];
                 if (keywordListRaw != null)
                 {
-                    List<string> slideKeywordList = keywordListRaw.Replace("keywords:", "").Trim().Split(",").Select(s => s.Trim()).ToList();
+                    List<string> slideKeywordList = keywordListRaw.Replace("keywords:", "").Trim().Split(',').Select(s => s.Trim()).ToList();
                     foreach (string keyword in slideKeywordList.ConvertAll(d => d.ToLower()))
                     {
                         if (!presentationKeywordDict.ContainsKey(keyword))

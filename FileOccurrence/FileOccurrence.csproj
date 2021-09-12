@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD49C1FB-155E-4967-AEBB-6E971DA55F02}</ProjectGuid>
+    <ProjectGuid>{CE43128A-1741-4611-83E1-A8A931D96C1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExcelWriter</RootNamespace>
-    <AssemblyName>ExcelWriter</AssemblyName>
+    <RootNamespace>FileOccurrence</RootNamespace>
+    <AssemblyName>FileOccurrence</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -45,14 +45,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelWriter.cs" />
+    <Compile Include="KeywordFileOccurrence.cs" />
+    <Compile Include="KeywordFileOccurrenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FileOccurrence\FileOccurrence.csproj">
-      <Project>{ce43128a-1741-4611-83e1-a8a931d96c1c}</Project>
-      <Name>FileOccurrence</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
