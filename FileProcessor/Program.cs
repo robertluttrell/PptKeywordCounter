@@ -11,12 +11,13 @@ namespace FileProcessor
     {
         static void Main(string[] args)
         {
-            string basePath = @"C:\Users\rober\source\repos\PptKeywordReader";
-            string pptPath = basePath + @"\TestFiles";
+            Console.WriteLine("Enter path to directory containing Powerpoint files:");
+            string pptPath = Console.ReadLine();
+
+            Console.WriteLine("Enter Excel destination path:");
+            string outputPath = Console.ReadLine();
 
             List<string> filePaths = Directory.GetFiles(pptPath).ToList().Where(s => s.EndsWith(".pptx")).ToList();
-
-            string outputPath = basePath + @"\testoutput.xlsx";
 
             Processor p = new Processor(filePaths, outputPath);
             p.ProcessFiles();
