@@ -12,14 +12,14 @@ namespace ExcelWriter
     public class ExcelWriter
     {
         private readonly string _outputPath;
-        private readonly Dictionary<string, List<KeywordFileOccurrence>> _keywordDict;
+        private readonly List<KeywordFileOccurrence> _kfoList;
         private uint _lastFilledRow;
         private SpreadsheetDocument _excelDoc;
 
-        public ExcelWriter(string outputPath, Dictionary<string, List<KeywordFileOccurrence>> keywordDict)
+        public ExcelWriter(string outputPath, List<KeywordFileOccurrence> kfoList)
         {
             _outputPath = outputPath;
-            _keywordDict = keywordDict;
+            _kfoList = kfoList;
         }
 
         public void WriteDictToFile()
@@ -33,26 +33,18 @@ namespace ExcelWriter
                 Row headerRow = MakeHeaderRow(sheetData);
                 sheetData.Append(headerRow);
 
-                var keyList = _keywordDict.Keys.OrderBy(s => s).ToList();
-
-                foreach (string keyword in keyList)
+                foreach (var kfo in _kfoList)
                 {
-                    AddRowsForKeyword(keyword, sheetData);
+                    AddRowForKFO(kfo, sheetData);
                 }
             }
         }
 
-        private void AddRowsForKeyword(string keyword, SheetData sheetData)
+        private void AddRowForKFO(KeywordFileOccurrence kfo, SheetData sheetData)
         {
-            var kfoList = _keywordDict[keyword];
-            kfoList.Sort(new KeywordFileOccurrenceComparer());
-
-            foreach (var kfo in kfoList)
-            {
-                Row newRow = MakeDataRow(kfo, _lastFilledRow + 1);
-                sheetData.Append(newRow);
-                _lastFilledRow += 1;
-            }
+            Row newRow = MakeDataRow(kfo, _lastFilledRow + 1);
+            sheetData.Append(newRow);
+            _lastFilledRow += 1;
         }
 
 

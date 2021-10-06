@@ -11,7 +11,8 @@ namespace FileProcessor
 
         private readonly List<string> _filePaths;
         private readonly string _outputPath;
-        private Dictionary<string, List<KeywordFileOccurrence>> _keywordDict;
+        private List<KeywordFileOccurrence> _kfoList;
+        //private Dictionary<string, List<KeywordFileOccurrence>> _keywordDict;
 
         public Processor(List<string> filePaths, string outputPath)
         {
@@ -24,9 +25,9 @@ namespace FileProcessor
             PptReader reader = new PptReader(_filePaths);
             reader.CountKeywordsAllFiles();
 
-            _keywordDict = reader.KeywordDict;
+            _kfoList = reader.kfoList;
 
-            ExcelWriter.ExcelWriter writer = new ExcelWriter.ExcelWriter(_outputPath, _keywordDict);
+            ExcelWriter.ExcelWriter writer = new ExcelWriter.ExcelWriter(_outputPath, _kfoList);
             writer.WriteDictToFile();
         }
     }

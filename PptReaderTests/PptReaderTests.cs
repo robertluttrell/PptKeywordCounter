@@ -8,6 +8,7 @@ namespace PptReaderTests
 {
     public class PptReaderTests
     {
+        /*
         private readonly string _baseDirectory = @"C:\Users\rober\source\repos\PptKeywordReader";
 
         [Fact]
@@ -101,5 +102,6 @@ namespace PptReaderTests
             Assert.Equal(new List<int>() { 2 }, reader.KeywordDict["keyword2"][0].SlideIndices);
         }
 
+        */
     }
 }

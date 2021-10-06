@@ -16,63 +16,69 @@ namespace PowerpointReader
         public PptReader(List<string> filePaths)
         {
             _filePaths = filePaths;
-            KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();
+            kfoList = new List<KeywordFileOccurrence>();
+            //KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();
         }
 
         public void CountKeywordsAllFiles()
         {
             foreach (string filePath in _filePaths)
             {
-                var nestedKeywordList = CountKeywordsSingleFile(filePath);
-                var presentationKeywordDict = MakePresentationKeywordDict(nestedKeywordList, filePath);
-                AddPresentationKeywordsToMasterDict(presentationKeywordDict, filePath);
-            }
-        }
+                var nestedKeywordList = GetKeywordTextboxContentFromSlides(filePath);
 
-        public void AddPresentationKeywordsToMasterDict(Dictionary<string, List<int>> presentationKeywordDict, string filePath)
-        {
-            foreach (string keyword in presentationKeywordDict.Keys)
-            {
-                if (!KeywordDict.ContainsKey(keyword))
-                {
-                    KeywordDict.Add(keyword, new List<KeywordFileOccurrence> { new KeywordFileOccurrence(keyword, filePath, presentationKeywordDict[keyword]) });
-                }
+                var keywordDictForFile = GetKeywordDictFromNestedKeywordList(nestedKeywordList);
 
-                else
+                var kfoListForFile = GetKFOListFromKeywordDict(keywordDictForFile, filePath);
+
+                //TODO: Find the actual method to append lists in C#
+                foreach (var kfo in kfoListForFile)
                 {
-                    KeywordDict[keyword].Add(new KeywordFileOccurrence(keyword, filePath, presentationKeywordDict[keyword]));
+                    kfoList.Add(kfo);
                 }
             }
         }
 
-        private Dictionary<string, List<int>> MakePresentationKeywordDict(List<string> presentationKeywordList, string filePath)
+        private List<KeywordFileOccurrence> GetKFOListFromKeywordDict(Dictionary<string, List<int>> keywordDictForFile, string filePath)
         {
-            var presentationKeywordDict = new Dictionary<string, List<int>>();
+            var kfoListForFile = new List<KeywordFileOccurrence>();
 
-            for (int slideIndex = 0; slideIndex < presentationKeywordList.Count(); slideIndex++)
+            foreach (string keyword in keywordDictForFile.Keys)
             {
-                string keywordListRaw = presentationKeywordList[slideIndex];
-                if (keywordListRaw != null)
+                var slideIndices = keywordDictForFile[keyword];
+                var kfo = new KeywordFileOccurrence(keyword, filePath, slideIndices);
+                kfoListForFile.Add(kfo);
+            }
+            return kfoListForFile;
+        }
+
+        private Dictionary<string, List<int>> GetKeywordDictFromNestedKeywordList(List<string> nestedKeywordList)
+        {
+            var keywordDictForFile = new Dictionary<string, List<int>>();
+
+            for (int slideIdx = 0; slideIdx < nestedKeywordList.Count; slideIdx++)
+            {
+                var slideKeywordListRaw = nestedKeywordList[slideIdx];
+
+                if (slideKeywordListRaw != null)
                 {
-                    List<string> slideKeywordList = keywordListRaw.Replace("keywords:", "").Trim().Split(',').Select(s => s.Trim()).ToList();
+                    List<string> slideKeywordList = slideKeywordListRaw.Replace("keywords:", "").Trim().Split(',').Select(s => s.Trim()).ToList();
                     foreach (string keyword in slideKeywordList.ConvertAll(d => d.ToLower()))
                     {
-                        if (!presentationKeywordDict.ContainsKey(keyword))
+                        if (!keywordDictForFile.ContainsKey(keyword))
                         {
-                            presentationKeywordDict.Add(keyword, new List<int> { slideIndex + 1 });
+                            keywordDictForFile.Add(keyword, new List<int>() { slideIdx });
                         }
                         else
                         {
-                            presentationKeywordDict[keyword].Add(slideIndex + 1);
+                            keywordDictForFile[keyword].Add(slideIdx);
                         }
                     }
                 }
             }
-
-            return presentationKeywordDict;
+            return keywordDictForFile;
         }
 
-        private List<string> CountKeywordsSingleFile(string filePath)
+        private List<string> GetKeywordTextboxContentFromSlides(string filePath)
         {
             var keywordList = new List<string>();
 
@@ -123,7 +129,6 @@ namespace PowerpointReader
 
         }
 
-        public Dictionary<string, List<KeywordFileOccurrence>> KeywordDict { get; set; }
-
+        public List<KeywordFileOccurrence> kfoList { get; set; }
     }
 }
