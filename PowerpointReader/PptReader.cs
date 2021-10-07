@@ -66,11 +66,11 @@ namespace PowerpointReader
                     {
                         if (!keywordDictForFile.ContainsKey(keyword))
                         {
-                            keywordDictForFile.Add(keyword, new List<int>() { slideIdx });
+                            keywordDictForFile.Add(keyword, new List<int>() { slideIdx + 1});
                         }
                         else
                         {
-                            keywordDictForFile[keyword].Add(slideIdx);
+                            keywordDictForFile[keyword].Add(slideIdx + 1);
                         }
                     }
                 }
