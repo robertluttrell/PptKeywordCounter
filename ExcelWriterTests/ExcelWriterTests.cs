@@ -10,7 +10,7 @@ namespace ExcelWriterTests
 {
     public class ExcelWriterTests
     {
-        private readonly string _baseDirectory = @"C:\Users\rober\source\repos\PptKeywordReader";
+        private readonly string _baseDirectory = @"C:\Users\rober\Source\repos\PptKeywordCounter";
 
         [Fact]
         public void Writer_NoKfo_WritesColumnHeaders()
@@ -32,7 +32,7 @@ namespace ExcelWriterTests
         public void Writer_SingleKfo_WritesToFile()
         {
             var kfoList = new List<KeywordFileOccurrence>();
-            kfoList.Add(new KeywordFileOccurrence("keyword1", "path/file", new List<int>() { 1, 2, 3 });
+            kfoList.Add(new KeywordFileOccurrence("keyword1", "path/file", new List<int>() { 1, 2, 3 }));
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
@@ -43,17 +43,16 @@ namespace ExcelWriterTests
             Assert.Equal("1,2,3", ExcelReader.GetCellValue(outputPath, "Worksheet1", "C2"));
             Assert.Equal("path/file", ExcelReader.GetCellValue(outputPath, "Worksheet1", "D2"));
         }
-        /*
 
         [Fact]
         public void Writer_MultipleKeywordsOneFile_AlphabeticalByKeyword()
         {
-            var kfoDict = new Dictionary<string, List<KeywordFileOccurrence>>();
-            kfoDict.Add("keyword2", new List<KeywordFileOccurrence>() { new KeywordFileOccurrence("keyword2", "path/file", new List<int>() { 1, 2, 3 }) });
-            kfoDict.Add("keyword1", new List<KeywordFileOccurrence>() { new KeywordFileOccurrence("keyword1", "path/file", new List<int>() { 1, 2, 3 }) });
+            var kfoList = new List<KeywordFileOccurrence>();
+            kfoList.Add(new KeywordFileOccurrence("keyword2", "path/file", new List<int>() { 1, 2, 3 }));
+            kfoList.Add(new KeywordFileOccurrence("keyword1", "path/file", new List<int>() { 1, 2, 3 }));
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
-            var writer = new ExcelWriter.ExcelWriter(outputPath, kfoDict);
+            var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
             writer.WriteDictToFile();
 
             Assert.Equal("keyword1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A2"));
@@ -63,19 +62,16 @@ namespace ExcelWriterTests
         [Fact]
         public void Writer_SingleKeywordMultipleFiles_AlphabeticalByFileName()
         {
-            var kfoDict = new Dictionary<string, List<KeywordFileOccurrence>>();
-            kfoDict.Add("keyword", new List<KeywordFileOccurrence>() {
-                                                                        new KeywordFileOccurrence("keyword", "path/file2", new List<int>() { 1, 2, 3 }),
-                                                                        new KeywordFileOccurrence("keyword", "path/file1", new List<int>() { 1, 2, 3 })
-                                                                     });
+            var kfoList = new List<KeywordFileOccurrence>();
+            kfoList.Add(new KeywordFileOccurrence("keyword", "path/file2", new List<int>() { 1, 2, 3 }));
+            kfoList.Add(new KeywordFileOccurrence("keyword", "path/file1", new List<int>() { 1, 2, 3 }));
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
-            var writer = new ExcelWriter.ExcelWriter(outputPath, kfoDict);
+            var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
             writer.WriteDictToFile();
 
             Assert.Equal("file1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B2"));
             Assert.Equal("file2", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B3"));
         }
-        */
     }
 }
