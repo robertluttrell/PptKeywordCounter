@@ -11,10 +11,10 @@ namespace ExcelWriter
 {
     public class ExcelWriter
     {
-        private readonly string _outputPath;
-        private readonly List<KeywordFileOccurrence> _kfoList;
-        private uint _lastFilledRow;
-        private SpreadsheetDocument _excelDoc;
+        private readonly string _outputPath;  // The path to the excel spreadsheet to be created
+        private readonly List<KeywordFileOccurrence> _kfoList;  // List of KeywordFileOccurrence objects created by PptReader
+        private uint _lastFilledRow;  // The index of the last row populated in the Excel sheet. Next available row = _lastFilledRow + 1
+        private SpreadsheetDocument _excelDoc;  // SpreadSheetDocument representing the excel document in memory
 
         public ExcelWriter(string outputPath, List<KeywordFileOccurrence> kfoList)
         {
@@ -22,10 +22,16 @@ namespace ExcelWriter
             _kfoList = kfoList;
         }
 
+        /// <summary>
+        /// Creates, populates, and fills the excel sheet at _outputpath with data from _kfoList
+        /// </summary>
         public void WriteDictToFile()
         {
             CreateDocument();
 
+            // Using statement disposes of file object when .NET garbage collector recognizes it is no longer in use.
+            // This will happen at the end of this using block because the AddRowForKFO call uses the file.
+            // The spreadsheet is not saved to _outputPath until the implicit spreadsheet.Close() at the end of this block.
             using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Open(_outputPath, true))
             {
                 SheetData sheetData = spreadsheet.WorkbookPart.WorksheetParts.First().Worksheet.Elements<SheetData>().First();
@@ -40,6 +46,11 @@ namespace ExcelWriter
             }
         }
 
+        /// <summary>
+        ///  Creates and adds a row for the data in kfo
+        /// </summary>
+        /// <param name="kfo">KeywordFileOccurrence object representing the keyword found in the file</param>
+        /// <param name="sheetData">SheetData object for the spreadsheet to be populated</param>
         private void AddRowForKFO(KeywordFileOccurrence kfo, SheetData sheetData)
         {
             Row newRow = MakeDataRow(kfo, _lastFilledRow + 1);
@@ -48,6 +59,11 @@ namespace ExcelWriter
         }
 
 
+        /// <summary>
+        /// Creates and populates a row representing the column headers
+        /// </summary>
+        /// <param name="sheetData">SheetData object representing the spreadsheet to fill</param>
+        /// <returns></returns>
         private Row MakeHeaderRow(SheetData sheetData)
         {
             Row row = new Row() { RowIndex = 1 };
@@ -66,6 +82,12 @@ namespace ExcelWriter
             return row;
         }
 
+        /// <summary>
+        /// Creates a row at index rowIndex in the spreadsheet and populates it with the data in kfo
+        /// </summary>
+        /// <param name="kfo">KeywordFileOccurrence object representing the occurrence of a keyword in a file</param>
+        /// <param name="rowIndex">Excel row index (1-based) for the row</param>
+        /// <returns></returns>
         private Row MakeDataRow(KeywordFileOccurrence kfo, uint rowIndex)
         {
             Row row = new Row() { RowIndex = rowIndex };
@@ -85,6 +107,13 @@ namespace ExcelWriter
             return row;
         }
 
+        /// <summary>
+        /// Creates a cell object at cellIndex and fills it with the text specifiec in cellText
+        /// </summary>
+        /// <param name="cellText">text to enter into the cell</param>
+        /// <param name="cellIndex">excel index for the cell (e.g. "C2")</param>
+        /// <param name="bold">make text bold</param>
+        /// <returns></returns>
         private Cell MakeCell(string cellText, string cellIndex, bool bold)
         {
             //create a new inline string cell
@@ -94,7 +123,6 @@ namespace ExcelWriter
             //create a run for the bold text
             Run run1 = new Run();
             run1.Append(new Text(cellText));
-            //create runproperties and append a "Bold" to them
             RunProperties run1Properties = new RunProperties();
 
             if (bold)
@@ -113,6 +141,11 @@ namespace ExcelWriter
             return cell;
         }
 
+        /// <summary>
+        /// Creates an excel document in memory with a single worksheet. This document has no knowledge of the 
+        /// storage location of the document at _outputPath until Spreadsheet.Close is implicitly called at the
+        /// end of the using statement in WriteDictToFile().
+        /// </summary>
         private void CreateDocument()
         {
             // Create document

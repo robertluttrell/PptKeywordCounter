@@ -12,7 +12,7 @@ namespace PowerpointReader
 {
     public class PptReader
     {
-        private readonly List<string> _filePaths;
+        private readonly List<string> _filePaths;  // File paths to read 
 
         public PptReader(List<string> filePaths)
         {
@@ -20,6 +20,10 @@ namespace PowerpointReader
             kfoList = new List<KeywordFileOccurrence>();
         }
 
+        /// <summary>
+        /// Counts all keywords in all files in _filePaths list and adds corresponding
+        /// KeywordFileOccurrence objects to the kfoList
+        /// </summary>
         public void CountKeywordsAllFiles()
         {
             foreach (string filePath in _filePaths)
@@ -35,6 +39,12 @@ namespace PowerpointReader
             }
         }
 
+        /// <summary>
+        /// Creates a list of KeywordFileOccurrence objects from a dictionary of keywords mapped to slide index lists
+        /// </summary>
+        /// <param name="keywordDictForFile">dictionary of keywords mapped to slide index lists</param>
+        /// <param name="filePath">the path to the powerpoint file where the keywords were found</param>
+        /// <returns></returns>
         private List<KeywordFileOccurrence> GetKFOListFromKeywordDict(Dictionary<string, List<int>> keywordDictForFile, string filePath)
         {
             var kfoListForFile = new List<KeywordFileOccurrence>();
@@ -49,6 +59,11 @@ namespace PowerpointReader
             return kfoListForFile;
         }
 
+        /// <summary>
+        /// Gets a dictionary representing keyword occurrences in a file from a list of keyword textbox entries
+        /// </summary>
+        /// <param name="nestedKeywordList">keyword entries for each slide (null if none exist)</param>
+        /// <returns>dictionary with keyword as key and list of slide indices as value</string></returns>
         private Dictionary<string, List<int>> GetKeywordDictFromNestedKeywordList(List<string> nestedKeywordList)
         {
             var keywordDictForFile = new Dictionary<string, List<int>>();
@@ -76,6 +91,11 @@ namespace PowerpointReader
             return keywordDictForFile;
         }
 
+        /// <summary>
+        /// Gets a list of all textbox contents in a powerpoint file where the content starts with "keywords:"
+        /// </summary>
+        /// <param name="filePath">path to the powerpoit file to be read</param>
+        /// <returns>list of all textbox elements as a string starting with "keywords:"</returns>
         private List<string> GetKeywordTextboxContentFromSlides(string filePath)
         {
             var keywordList = new List<string>();
@@ -101,6 +121,12 @@ namespace PowerpointReader
             return keywordList;
         }
 
+        /// <summary>
+        /// Gets the textbox content for the first text element in a single slide that starts with "keywords:"
+        /// </summary>
+        /// <param name="slidePart">the slidePart representing the slide at slideIndex</param>
+        /// <param name="slideIndex">the index of the slide to be processed</param>
+        /// <returns></returns>
         public static string GetKeywordsFromSlide(SlidePart slidePart, int slideIndex)
         {
             // Verify that the slide part exists.
@@ -127,6 +153,6 @@ namespace PowerpointReader
 
         }
 
-        public List<KeywordFileOccurrence> kfoList { get; set; }
+        public List<KeywordFileOccurrence> kfoList { get; set; }  // list of KeywordFileOccurrence objects discovered by PptReader
     }
 }
