@@ -17,7 +17,6 @@ namespace PowerpointReader
         {
             _filePaths = filePaths;
             kfoList = new List<KeywordFileOccurrence>();
-            //KeywordDict = new Dictionary<string, List<KeywordFileOccurrence>>();
         }
 
         public void CountKeywordsAllFiles()
@@ -30,11 +29,7 @@ namespace PowerpointReader
 
                 var kfoListForFile = GetKFOListFromKeywordDict(keywordDictForFile, filePath);
 
-                //TODO: Find the actual method to append lists in C#
-                foreach (var kfo in kfoListForFile)
-                {
-                    kfoList.Add(kfo);
-                }
+                kfoList.Concat(kfoListForFile);
             }
         }
 
