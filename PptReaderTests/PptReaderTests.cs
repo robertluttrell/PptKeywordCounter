@@ -3,12 +3,13 @@ using Xunit;
 using PowerpointReader;
 using FileOccurrence;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PptReaderTests
 {
     public class PptReaderTests
     {
-        private readonly string _baseDirectory = @"C:\Users\rober\source\repos\PptKeywordReader";
+        private readonly string _baseDirectory = @"C:\Users\rober\Source\repos\PptKeywordCounter";
 
         [Fact]
         public void Reader_CountKeywordsAllFiles_BlankPresentation_EmptyDict()
@@ -18,7 +19,7 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
-            Assert.Empty(reader.KeywordDict);
+            Assert.Empty(reader.kfoList);
         }
 
         [Fact]
@@ -29,12 +30,10 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
-            Assert.Single(reader.KeywordDict);
-            Assert.Single(reader.KeywordDict["mykeyword"]);
-            Assert.Equal("mykeyword", reader.KeywordDict["mykeyword"][0].Keyword);
-            Assert.Equal(presentationPath, reader.KeywordDict["mykeyword"][0].FilePath);
-            Assert.Equal(new List<int>() { 1 }, reader.KeywordDict["mykeyword"][0].SlideIndices);
-
+            Assert.Single(reader.kfoList);
+            Assert.Equal("mykeyword", reader.kfoList[0].Keyword);
+            Assert.Equal(presentationPath, reader.kfoList[0].FilePath);
+            Assert.Equal(new List<int>() { 1 }, reader.kfoList[0].SlideIndices);
         }
 
         [Fact]
@@ -45,8 +44,8 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
-            Assert.Single(reader.KeywordDict);
-            Assert.Single(reader.KeywordDict["mykeyword"]);
+            Assert.Single(reader.kfoList);
+            Assert.Equal("mykeyword", reader.kfoList[0].Keyword);
         }
 
         [Fact]
@@ -57,8 +56,8 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
-            Assert.Single(reader.KeywordDict);
-            Assert.Single(reader.KeywordDict["mykeyword"]);
+            Assert.Single(reader.kfoList);
+            Assert.Equal("mykeyword", reader.kfoList[0].Keyword);
         }
 
         [Fact]
@@ -69,8 +68,8 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
-            Assert.Single(reader.KeywordDict);
-            Assert.Single(reader.KeywordDict["mykeyword"]);
+            Assert.Single(reader.kfoList);
+            Assert.Equal("mykeyword", reader.kfoList[0].Keyword);
         }
 
         [Fact]
@@ -81,9 +80,10 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentationPath });
             reader.CountKeywordsAllFiles();
 
-            Assert.Equal(2, reader.KeywordDict.Count);
-            Assert.True(reader.KeywordDict.ContainsKey("keyword1"));
-            Assert.True(reader.KeywordDict.ContainsKey("keyword2"));
+            Assert.Equal(2, reader.kfoList.Count);
+            var keywords = new HashSet<string>() { reader.kfoList[0].Keyword, reader.kfoList[1].Keyword };
+            Assert.Contains("keyword1", keywords);
+            Assert.Contains("keyword2", keywords);
         }
         
         [Fact]
@@ -95,10 +95,12 @@ namespace PptReaderTests
             PptReader reader = new PptReader(new List<string> { presentation1Path, presentation2Path });
             reader.CountKeywordsAllFiles();
 
-            Assert.Equal(2, reader.KeywordDict.Count);
+            Assert.Equal(4, reader.kfoList.Count);
 
-            Assert.Equal(new List<int>() { 1, 2 }, reader.KeywordDict["keyword1"][0].SlideIndices);
-            Assert.Equal(new List<int>() { 2 }, reader.KeywordDict["keyword2"][0].SlideIndices);
+            var keyword1KFOSublist = reader.kfoList.Where(k => k.Keyword == "keyword1");
+            var keyword2KFOSublist = reader.kfoList.Where(k => k.Keyword == "keyword2");
+            Assert.Equal(2, keyword1KFOSublist.Count());
+            Assert.Equal(2, keyword2KFOSublist.Count());
         }
 
     }
