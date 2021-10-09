@@ -45,11 +45,11 @@ namespace ExcelWriterTests
         }
 
         [Fact]
-        public void Writer_MultipleKeywordsOneFile_AlphabeticalByKeyword()
+        public void Writer_MultipleKeywordsOneFile_WritesToFile()
         {
             var kfoList = new List<KeywordFileOccurrence>();
-            kfoList.Add(new KeywordFileOccurrence("keyword2", "path/file", new List<int>() { 1, 2, 3 }));
             kfoList.Add(new KeywordFileOccurrence("keyword1", "path/file", new List<int>() { 1, 2, 3 }));
+            kfoList.Add(new KeywordFileOccurrence("keyword2", "path/file", new List<int>() { 1, 2, 3 }));
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
@@ -60,11 +60,11 @@ namespace ExcelWriterTests
         }
 
         [Fact]
-        public void Writer_SingleKeywordMultipleFiles_AlphabeticalByFileName()
+        public void Writer_SingleKeywordMultipleFiles_WritesToFile()
         {
             var kfoList = new List<KeywordFileOccurrence>();
-            kfoList.Add(new KeywordFileOccurrence("keyword", "path/file2", new List<int>() { 1, 2, 3 }));
             kfoList.Add(new KeywordFileOccurrence("keyword", "path/file1", new List<int>() { 1, 2, 3 }));
+            kfoList.Add(new KeywordFileOccurrence("keyword", "path/file2", new List<int>() { 1, 2, 3 }));
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);

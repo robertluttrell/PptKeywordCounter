@@ -26,6 +26,7 @@ namespace FileProcessor
             reader.CountKeywordsAllFiles();
 
             _kfoList = reader.kfoList;
+            _kfoList.Sort(new KeywordFileOccurrenceComparer());
 
             ExcelWriter.ExcelWriter writer = new ExcelWriter.ExcelWriter(_outputPath, _kfoList);
             writer.WriteDictToFile();
