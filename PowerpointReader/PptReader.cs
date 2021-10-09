@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Presentation;
@@ -37,11 +38,12 @@ namespace PowerpointReader
         private List<KeywordFileOccurrence> GetKFOListFromKeywordDict(Dictionary<string, List<int>> keywordDictForFile, string filePath)
         {
             var kfoListForFile = new List<KeywordFileOccurrence>();
+            var creationDate = File.GetCreationTime(filePath);
 
             foreach (string keyword in keywordDictForFile.Keys)
             {
                 var slideIndices = keywordDictForFile[keyword];
-                var kfo = new KeywordFileOccurrence(keyword, filePath, slideIndices);
+                var kfo = new KeywordFileOccurrence(keyword, filePath, slideIndices, creationDate);
                 kfoListForFile.Add(kfo);
             }
             return kfoListForFile;

@@ -11,7 +11,14 @@ namespace FileOccurrence
     {
         public int Compare(KeywordFileOccurrence kfo1, KeywordFileOccurrence kfo2)
         {
-            return kfo1.FileName.CompareTo(kfo2.FileName);
+            var result = kfo1.Keyword.CompareTo(kfo2.Keyword);
+            if (result != 0) return result;
+
+            result = kfo1.FileName.CompareTo(kfo2.FileName);
+            if (result != 0) return result;
+
+            result = kfo1.CreationDate.CompareTo(kfo2.CreationDate);
+            return result;
         }
     }
 }

@@ -52,8 +52,8 @@ namespace ExcelWriter
         {
             Row row = new Row() { RowIndex = 1 };
 
-            var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1", "D1" };
-            var headerTextList = new List<string>() { "Keyword", "File Name", "Slide Indices", "File Path" };
+            var columnHeaderCellIds = new List<string>() { "A1", "B1", "C1", "D1", "E1" };
+            var headerTextList = new List<string>() { "Keyword", "File Name", "Slide Indices", "File Path", "Date Created" };
 
             for (int i = 0; i < columnHeaderCellIds.Count; i++)
             {
@@ -75,6 +75,7 @@ namespace ExcelWriter
             newCellList.Add(MakeCell(Path.GetFileName(kfo.FilePath), "B" + rowIndex.ToString(), false));
             newCellList.Add(MakeCell(string.Join(",", kfo.SlideIndices), "C" + rowIndex.ToString(), false));
             newCellList.Add(MakeCell(kfo.FilePath, "D" + rowIndex.ToString(), false));
+            newCellList.Add(MakeCell(kfo.CreationDate.ToString().Split()[0], "E" + rowIndex.ToString(), false));
 
             foreach (Cell newCell in newCellList)
             {
