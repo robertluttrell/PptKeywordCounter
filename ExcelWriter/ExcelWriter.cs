@@ -25,7 +25,7 @@ namespace ExcelWriter
         /// <summary>
         /// Creates, populates, and fills the excel sheet at _outputpath with data from _kfoList
         /// </summary>
-        public void WriteDictToFile()
+        public void CreateAndWriteSpreadsheet()
         {
             CreateDocument();
 

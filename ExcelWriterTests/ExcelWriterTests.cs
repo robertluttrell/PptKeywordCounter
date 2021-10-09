@@ -20,7 +20,7 @@ namespace ExcelWriterTests
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
-            writer.WriteDictToFile();
+            writer.CreateAndWriteSpreadsheet();
 
             Assert.Equal("Keyword", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A1"));
             Assert.Equal("File Name", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B1"));
@@ -36,7 +36,7 @@ namespace ExcelWriterTests
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
-            writer.WriteDictToFile();
+            writer.CreateAndWriteSpreadsheet();
 
             Assert.Equal("keyword1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A2"));
             Assert.Equal("file", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B2"));
@@ -53,7 +53,7 @@ namespace ExcelWriterTests
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
-            writer.WriteDictToFile();
+            writer.CreateAndWriteSpreadsheet();
 
             Assert.Equal("keyword1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A2"));
             Assert.Equal("keyword2", ExcelReader.GetCellValue(outputPath, "Worksheet1", "A3"));
@@ -68,7 +68,7 @@ namespace ExcelWriterTests
 
             var outputPath = _baseDirectory + @"\testoutput.xlsx";
             var writer = new ExcelWriter.ExcelWriter(outputPath, kfoList);
-            writer.WriteDictToFile();
+            writer.CreateAndWriteSpreadsheet();
 
             Assert.Equal("file1", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B2"));
             Assert.Equal("file2", ExcelReader.GetCellValue(outputPath, "Worksheet1", "B3"));

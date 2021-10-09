@@ -34,7 +34,7 @@ namespace FileProcessor
 
             // Write to excel file
             ExcelWriter.ExcelWriter writer = new ExcelWriter.ExcelWriter(_outputPath, _kfoList);
-            writer.WriteDictToFile();
+            writer.CreateAndWriteSpreadsheet();
         }
     }
 }
