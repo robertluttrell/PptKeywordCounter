@@ -29,7 +29,8 @@ namespace PowerpointReader
 
                 var kfoListForFile = GetKFOListFromKeywordDict(keywordDictForFile, filePath);
 
-                kfoList.Concat(kfoListForFile);
+                kfoList = kfoList.Concat(kfoListForFile).ToList();
+
             }
         }
 
